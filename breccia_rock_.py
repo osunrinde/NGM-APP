@@ -141,6 +141,10 @@ def main():
             
             st.success("Prediction Successful")
             
+            #Clearing Memory once Prediction is successful
+            for i in image_file:
+                os.remove('Breccia_Rock/'+i.name)
+            
             #download to Excel file
             buffer = io.BytesIO()
             with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
@@ -154,9 +158,7 @@ def main():
                     file_name="Predicted Logging.xlsx",
                     mime="application/vnd.ms-excel"
                 )
-            #Clearing Memory once Prediction is successful
-            for i in image_file:
-                os.remove('Breccia_Rock/'+i.name)
+            
             
 
                 
