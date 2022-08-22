@@ -10,6 +10,8 @@ import tensorflow
 import os
 import subprocess
 import urllib.request
+import xlsxwriter
+from io import BytesIO
 ########################
 # Page Title
 ########################
@@ -138,8 +140,23 @@ def main():
             st.dataframe(Final_prediction1)
             
             st.success("Prediction Successful")
+            
+            #download to csv file
+            with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+                # Write each dataframe to a different worksheet.
+                Final_prediction1.to_csv(writer, sheet_name='Sheet1')
+                # Close the Pandas csv writer and output the csv file to the buffer
+                writer.save()
+                st.download_button(
+                    label="Download Predicted File",
+                    data=buffer,
+                    file_name="Predicted Logging.csv",
+                    mime="application/vnd.ms-csv"
+                )
+            #Clearing Memory once Prediction is successful
             for i in image_file:
                 os.remove('Breccia_Rock/'+i.name)
+            
 
                 
         
