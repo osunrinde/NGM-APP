@@ -21,9 +21,7 @@ st.image(image, use_column_width=True)
 
 st.write("""
 # BRECCIA ROCK CLASSIFICATION
-
 This application helps to classify breccias into their different classes
-
 ***
 """)
 
@@ -92,6 +90,7 @@ for j in spliited:
 
 
 #loading the model
+#model_path='./Extras/Breccia_Rock_Classifier.h5'
 
 @st.experimental_singleton
 def load_model():
@@ -101,13 +100,12 @@ def load_model():
 
 
 #predictions
-@st.cache
 def Breccia_Predictions(model):
     image_=pre_process()
-    model=tensorflow.keras.models.load_model('Breccia_Rock_Classifier.h5')
     prediction_steps_per_epoch = np.math.ceil(image_.n / image_.batch_size)
     image_.reset()
     Breccia_predictions = model.predict_generator(image_, steps=prediction_steps_per_epoch, verbose=1)
+#     model.close()
     predicted_classes = np.argmax(Breccia_predictions, axis=1)
     return predicted_classes
 
@@ -131,7 +129,7 @@ def main():
         #predict Button        
                 
         if(st.button('Predict')):
-            model=load_model()
+            model = load_model()
             predicted=Breccia_Predictions(model)
             list_predicted_classes=predicted.tolist()
             Final_prediction1=pd.DataFrame(data=zip(name, GeoFrom, GeoTo, list_predicted_classes),columns=['HoleID','GeoFrom', 'GeoTo','Predicted_Labels'])
@@ -147,6 +145,5 @@ def main():
         
 if __name__ == "__main__":
     main()
-    
     
     
