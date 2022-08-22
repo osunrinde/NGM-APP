@@ -141,17 +141,18 @@ def main():
             
             st.success("Prediction Successful")
             
-            #download to csv file
+            #download to Excel file
+            buffer = io.BytesIO()
             with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
                 # Write each dataframe to a different worksheet.
-                Final_prediction1.to_csv(writer, sheet_name='Sheet1')
-                # Close the Pandas csv writer and output the csv file to the buffer
+                Final_prediction1.to_excel(writer, sheet_name='Sheet1')
+                # Close the Pandas excel writer and output the csv file to the buffer
                 writer.save()
                 st.download_button(
                     label="Download Predicted File",
                     data=buffer,
-                    file_name="Predicted Logging.csv",
-                    mime="application/vnd.ms-csv"
+                    file_name="Predicted Logging.xlsx",
+                    mime="application/vnd.ms-excel"
                 )
             #Clearing Memory once Prediction is successful
             for i in image_file:
