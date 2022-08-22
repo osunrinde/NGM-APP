@@ -95,7 +95,7 @@ for j in spliited:
 @st.experimental_singleton
 def load_model():
     if not os.path.isfile('model.h5'):
-        urllib.request.urlretrieve('https://github.com/snehankekre/NGM-APP/raw/main/Breccia_Rock_Classifier.h5', 'model.h5')
+        urllib.request.urlretrieve('https://github.com/osunrinde/NGM-APP/raw/main/Breccia_Rock_Classifier.h5', 'model.h5')
     return tensorflow.keras.models.load_model('model.h5')
 
 
